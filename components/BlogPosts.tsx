@@ -53,14 +53,14 @@ const BlogSection = () => {
                         </div>
 
                         {/* Meta Data (Author & Date) */}
-                        <div className="flex items-center gap-3 text-sm font-semibold text-green-500 mb-3">
+                        <div className="flex items-center gap-3 text-sm font-semibold text-gray-500 mb-3">
                             <span>By {post.author}</span>
                             <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
                             <span>{post.date}</span>
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-2xl font-medium leading-tight text-yellow-500 mb-4 group-hover:text-red-500 transition-colors">
+                        <h3 className="text-2xl font-medium leading-tight text-black mb-4 group-hover:text-red-500 transition-colors">
                             {post.title}
                         </h3>
 

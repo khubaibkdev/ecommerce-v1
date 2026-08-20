@@ -7,7 +7,8 @@ import { useCart } from '@/components/CartContext'
 import { useRouter } from 'next/navigation'
 
 const CheckoutPage = () => {
-    const { cartItems, getCartTotal } = useCart()
+    const { cartItems, getCartTotal, clearCart } = useCart()
+
     const total = getCartTotal()
     const router = useRouter()
 
@@ -20,9 +21,10 @@ const CheckoutPage = () => {
             total: total,
             email: email,
             date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-        };
+        }
 
         localStorage.setItem('lastOrder', JSON.stringify(order))
+        clearCart()
         router.push('/order-confirmation')
     }
 
