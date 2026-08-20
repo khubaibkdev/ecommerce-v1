@@ -22,18 +22,28 @@ const Footer = () => {
                     <h2 className="text-2xl md:text-3xl font-medium leading-tight max-w-md">
                         Fashion Forward: Stay In The Know With Our Newsletter
                     </h2>
-
-                    <div className="w-full md:w-auto flex-1 max-w-lg bg-white rounded-full p-1.5 flex items-center">
+                    <div className="w-full md:w-auto flex-1 max-w-lg bg-white rounded-full p-1.5 flex flex-col md:flex-row items-center gap-2 md:gap-0">
                         <input
                             type="email"
                             placeholder="Your email"
-                            className="flex-1 bg-transparent text-gray-800 px-6 py-2 outline-none text-sm"
+                            className="flex-1 bg-transparent text-gray-800 px-6 py-2 outline-none text-sm w-full"
                         />
-                        <button className="bg-black text-white hover:bg-gray-800 transition-colors px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2">
+                        <button className="w-full md:w-auto bg-black text-white hover:bg-gray-800 transition-colors px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wide flex items-center justify-center gap-2 md:ml-2">
                             Subscribe
                             <span>→</span>
                         </button>
                     </div>
+                    {/*<div className="w-full md:w-auto flex-1 max-w-lg bg-white rounded-full p-1.5 flex items-center">*/}
+                    {/*    <input*/}
+                    {/*        type="email"*/}
+                    {/*        placeholder="Your email"*/}
+                    {/*        className="flex-1 bg-transparent text-gray-800 px-6 py-2 outline-none text-sm"*/}
+                    {/*    />*/}
+                    {/*    <button className="bg-black text-white hover:bg-gray-800 transition-colors px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2">*/}
+                    {/*        Subscribe*/}
+                    {/*        <span>→</span>*/}
+                    {/*    </button>*/}
+                    {/*</div>*/}
                 </div>
 
                 {/* ===== LINKS & INFO SECTION ===== */}

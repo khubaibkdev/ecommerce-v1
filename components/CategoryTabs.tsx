@@ -21,7 +21,7 @@ const CategoryTabs = () => {
             <div className="flex flex-wrap justify-center gap-8">
                 {categories.map((category) => {
                     // Create the URL path (e.g., 'Men' -> '/men')
-                    const href = `/${category.name.toLowerCase()}`;
+                    const href = `/shop/${category.name.toLowerCase()}`
 
                     // Check if this category matches the current URL path
                     const isActive = pathname === href;

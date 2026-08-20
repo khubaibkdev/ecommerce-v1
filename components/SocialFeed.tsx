@@ -16,11 +16,11 @@ const SocialFeed = () => {
         <section className="w-full py-16 bg-white">
 
             {/* The Horizontal Image Strip */}
-            <div className="flex w-full overflow-hidden">
+            <div className="flex w-full overflow-x-auto">
                 {socialImages.map((image) => (
                     <div
                         key={image.id}
-                        className="relative w-1/6 aspect-square min-w-[150px] md:min-w-[200px] flex-grow"
+                        className="relative aspect-square flex-grow min-w-[40%] md:min-w-[16.666%]"
                     >
                         <Image
                             src={image.src}

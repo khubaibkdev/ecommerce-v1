@@ -24,7 +24,7 @@ const testimonials = [
         subText: "I keep coming back for more!",
         name: "Emily Johnson",
         role: "Fashion Enthusiast",
-        image: "/images/ts1.png", // Replace with your PNG/JPG
+        image: "/images/ts1.png",
     },
     {
         id: 2,

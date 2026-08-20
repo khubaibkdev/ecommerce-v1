@@ -98,15 +98,15 @@ const ProductSection = () => {
 
     return (
         <section className="container mx-auto px-4 py-12">
-            {/* Category Tabs - FIXED THE KEY ERROR HERE */}
+
             <div className="justify-center flex gap-2 p-1 ">
                 {tabs.map((tab) => (
                     <button
-                        key={tab} // <--- THIS IS THE FIX (Added key={tab})
+                        key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={`px-6 py-2 text-2xl font-medium transition-all duration-300 ${
                             activeTab === tab
-                                ? 'text-black'
+                                ? 'text-red-400'
                                 : 'text-gray-600 hover:text-black'
                         }`}
                     >
@@ -123,9 +123,9 @@ const ProductSection = () => {
 
                     return (
                         <Link
-                            key={product.id} // Product cards already have this key correctly
-                            href={`/product/${productSlug}`}
-                            className="group relative bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
+                            key={product.id}
+                            href={`/product/${productSlug}?img=${encodeURIComponent(product.image)}`}
+                            className="..."
                         >
                             {/* Product Image */}
                             <div className="relative h-64 bg-gray-100 overflow-hidden">
@@ -133,7 +133,7 @@ const ProductSection = () => {
                                     src={product.image}
                                     alt={product.title}
                                     fill
-                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                    className="max-sm:object-contain sm:object-cover group-hover:scale-110 transition-transform duration-500"
                                 />
 
                                 {product.discount && (

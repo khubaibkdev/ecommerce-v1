@@ -90,8 +90,8 @@ const ProductDetails = ({ name, price, availability, image }: ProductDetailsProp
                                     title: name,
                                     price: price, // Make sure price is passed as a number, not string
                                     image: image,
-                                });
-                                alert(`${name} added to cart!`);
+                                })
+                                // alert(`${name} added to cart!`);
                             }}
                             className="flex-1 min-w-[140px] h-12 rounded-full border-2 border-black text-black font-medium hover:bg-black hover:text-white transition-all duration-300"
                         >

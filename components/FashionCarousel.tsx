@@ -68,9 +68,9 @@ const FashionCarousel = () => {
                                 sizes="(max-width: 768px) 100vw, 33vw"
                             />
 
-                            {/* The "+" Button */}
+
                             <button
-                                className="absolute left-5 bottom-5 w-12 h-12 rounded-full bg-white hover:bg-gray-100 hover:scale-110 transition-all duration-300 shadow-lg flex items-center justify-center text-2xl font-light text-gray-800"
+                                className="absolute left-3 bottom-3 sm:left-5 sm:bottom-5 w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-white hover:bg-gray-100 hover:scale-110 transition-all duration-300 shadow-lg flex items-center justify-center text-base sm:text-2xl font-light text-gray-800"
                                 aria-label="Add to favorites"
                             >
                                 +

@@ -4,7 +4,8 @@ import Link from 'next/link'
 
 const StyleRedefined = () => {
     return (
-        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        <section className="relative min-h-[50vh] sm:min-h-[90vh] flex items-center justify-center overflow-hidden">
+        {/*<section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">*/}
 
             <div className="absolute inset-0 z-0">
                 <Image
@@ -35,7 +36,7 @@ const StyleRedefined = () => {
                 </p>
 
                 <Link
-                    href="/shop"
+                    href="/shop/men"
                     className="inline-block bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-red-500 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                     Discover Now
