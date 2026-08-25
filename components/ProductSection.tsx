@@ -133,7 +133,7 @@ const ProductSection = () => {
                                     src={product.image}
                                     alt={product.title}
                                     fill
-                                    className="max-sm:object-contain sm:object-cover group-hover:scale-110 transition-transform duration-500"
+                                    className="object-cover object-top max-sm:object-contain sm:object-cover group-hover:scale-110 transition-transform duration-500"
                                 />
 
                                 {product.discount && (
