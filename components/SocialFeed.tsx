@@ -15,13 +15,19 @@ const SocialFeed = () => {
     return (
         <section className="w-full py-16 bg-white">
 
-            {/* The Horizontal Image Strip */}
-            <div className="flex w-full overflow-x-auto">
+            
+            {/* <div className="flex w-full overflow-x-auto"> */}
+            <div className="flex w-full overflow-x-auto max-w-full">
+                
                 {socialImages.map((image) => (
-                    <div
-                        key={image.id}
-                        className="relative aspect-square flex-grow min-w-[40%] md:min-w-[16.666%]"
-                    >
+                   <div 
+                    key={image.id}
+                    className="relative aspect-square flex-grow min-w-[40%] md:min-w-[16.666%] shrink-0"
+                   >
+                   {/* // <div */}
+                    {/* //     key={image.id} */}
+                    {/* //     className="relative aspect-square flex-grow min-w-[40%] md:min-w-[16.666%]" */}
+                    {/* // > */}
                         <Image
                             src={image.src}
                             alt={image.alt}
