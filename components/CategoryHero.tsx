@@ -26,15 +26,17 @@ const CategoryHero = ({ title, description, image }: CategoryHeroProps) => {
 
             {/* Hero Banner */}
             <div className="relative w-full h-[300px] md:h-[400px] bg-[#808080] overflow-hidden">
-                <div className="absolute inset-0 z-0">
+                {/* <div className="absolute inset-0 z-0"> */}
+                <div className="absolute inset-0 bg-black/40" >
                     <Image
                         src={image}
                         alt={`${title} Collection`}
                         fill
-                        className="object-cover object-center"
+                        sizes="100vw"
+                        // className="object-cover object-center"
+                        className="object-cover object-[center_70%]"
                         priority
                     />
-                    <div className="absolute inset-0 bg-black/10" />
                 </div>
 
                 <div className="relative z-10 flex flex-col items-center justify-center h-full text-white px-4 text-center">
