@@ -1,0 +1,210 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // pooled connection, used at runtime
+  directUrl = env("POSTGRES_URL_NON_POOLING") // direct connection, used for migrations
+}
+
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String
+  role         String   @default("owner")
+  createdAt    DateTime @default(now())
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  slug      String    @unique
+  name      String
+  image     String
+  heroImage String
+  position  Int       @default(0)
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id             Int             @id @default(autoincrement())
+  handle         String          @unique
+  title          String
+  vendor         String
+  description    String          @default("")
+  price          Float
+  compareAtPrice Float?
+  image          String
+  hoverImage     String
+  categorySlug   String
+  category       Category        @relation(fields: [categorySlug], references: [slug])
+  productType    String
+  sizes          String          @default("[]")
+  tabs           String          @default("[]")
+  soldOut        Boolean         @default(false)
+  countdown      Boolean         @default(false)
+  reviews        Int             @default(0)
+  rating         Int             @default(0)
+  status         String          @default("published")
+  seoTitle       String?
+  seoDescription String?
+  position       Int             @default(0)
+  swatches       ProductSwatch[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model ProductSwatch {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name      String
+  color     String
+  image     String
+  position  Int     @default(0)
+}
+
+model BlogPost {
+  id        Int      @id @default(autoincrement())
+  handle    String   @unique
+  title     String
+  image     String
+  author    String
+  date      String
+  excerpt   String
+  content   String   @default("")
+  status    String   @default("published")
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Page {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  title     String
+  intro     String
+  body      String   @default("[]")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Media {
+  id         Int      @id @default(autoincrement())
+  url        String
+  filename   String
+  altText    String   @default("")
+  uploadedAt DateTime @default(now())
+}
+
+model HeroSlide {
+  id         Int     @id @default(autoincrement())
+  image      String
+  eyebrow    String
+  headingL1  String
+  headingL2  String
+  subheading String
+  align      String  @default("center")
+  buttonHref String  @default("/shop/men")
+  position   Int     @default(0)
+  active     Boolean @default(true)
+}
+
+model GridBanner {
+  id         Int     @id @default(autoincrement())
+  image      String
+  eyebrow    String
+  headingL1  String
+  headingL2  String
+  text       String
+  buttonHref String  @default("/shop/men")
+  position   Int     @default(0)
+  active     Boolean @default(true)
+}
+
+model SpringSlide {
+  id            Int     @id @default(autoincrement())
+  image         String
+  productHandle String
+  topPos        String  @default("40%")
+  leftPos       String  @default("10%")
+  position      Int     @default(0)
+  active        Boolean @default(true)
+}
+
+model Testimonial {
+  id       Int     @id @default(autoincrement())
+  name     String
+  role     String
+  image    String
+  quote    String
+  subText  String
+  position Int     @default(0)
+  active   Boolean @default(true)
+}
+
+model InstagramImage {
+  id       Int     @id @default(autoincrement())
+  image    String
+  link     String  @default("#")
+  position Int     @default(0)
+  active   Boolean @default(true)
+}
+
+model RecentPurchase {
+  id        Int     @id @default(autoincrement())
+  title     String
+  image     String
+  handle    String
+  location  String
+  timeLabel String
+  position  Int     @default(0)
+  active    Boolean @default(true)
+}
+
+model SiteSettings {
+  id Int @id @default(1)
+
+  siteName  String @default("Rosyz")
+  tagline   String @default("Fashion & Lifestyle Store")
+  logoLight String @default("/images/rosyz/logo.png")
+  logoDark  String @default("/images/rosyz/logo-light.png")
+  favicon   String @default("/favicon.ico")
+
+  footerDescription String @default("Rosyz is a dynamic and innovative online fashion retailer bringing curated style to customers worldwide.")
+  contactPhone      String @default("+ (08) 9055 0269")
+  contactEmail      String @default("example@example.com")
+  contactAddress    String @default("50 Porana Place, West Casuarinas, Western Australia, Australia.")
+  facebookUrl       String @default("#")
+  twitterUrl        String @default("#")
+  instagramUrl      String @default("#")
+  copyrightText     String @default("Rosyz. All rights reserved")
+
+  parallaxImage      String @default("/images/rosyz/baner-bg.jpg")
+  parallaxEyebrow     String @default("Style Redefined")
+  parallaxHeadingL1   String @default("Your Passport to")
+  parallaxHeadingL2   String @default("Fashion Elegance")
+  parallaxText        String @default("Indulge in the art of fashion with Rosyz. Discover a world of sophistication and timeless elegance.")
+  parallaxButtonHref  String @default("/shop/men")
+
+  newsletterEnabled Boolean @default(true)
+  newsletterHeading String  @default("Stay Styled, Stay Informed!")
+  newsletterText    String  @default("Unlock Fashion Secrets and Exclusive Offers! Join our fashion community and be the first to know about the latest trends, exclusive collections, and insider deals.")
+  newsletterImage   String  @default("/images/rosyz/newsletter.jpg")
+
+  cookieBarEnabled Boolean @default(true)
+  cookieBarText    String  @default("This website uses cookies to ensure you get the best experience on our website.")
+
+  announcementEnabled Boolean @default(false)
+  announcementText    String  @default("")
+
+  bestSellerLimit Int @default(3)
+
+  seoTitle       String @default("Rosyz — Fashion & Lifestyle Store")
+  seoDescription String @default("Discover the latest fashion trends at Rosyz — elevate your style with our exclusive collection.")
+  currencySymbol String @default("$")
+
+  updatedAt DateTime @updatedAt
+}

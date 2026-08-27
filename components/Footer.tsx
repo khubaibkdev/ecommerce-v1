@@ -1,126 +1,212 @@
-import React from 'react'
-import Link from 'next/link'
+'use client'
 
+import React, { useRef, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowRightIcon } from '@/components/icons'
+import type { Collection } from '@/lib/products'
+import type { SiteSettings } from '@prisma/client'
 
 const FacebookIcon = () => (
-    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+    </svg>
 )
+
 const TwitterIcon = () => (
-    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+    <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+    </svg>
 )
+
 const InstagramIcon = () => (
-    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.315 1.347 20.646.935 19.856.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
+    <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+        <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.315 1.347 20.646.935 19.856.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
+    </svg>
 )
 
-const Footer = () => {
-    return (
-        <footer className="bg-[#1a1a1a] text-white pt-16 pb-8">
-            <div className="container mx-auto px-4">
+const informationLinks = [
+    { label: 'About Us', href: '/pages/about-us' },
+    { label: 'Privacy Policy', href: '/pages/privacy-policy' },
+    { label: 'Returns Policy', href: '/pages/returns-policy' },
+    { label: 'Shipping Policy', href: '/pages/shipping-policy' },
+    { label: 'Terms & Conditions', href: '/pages/terms-conditions' },
+]
 
-                {/*NEWSLETTER SECTION*/}
-                <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-12 border-b border-white/10">
-                    <h2 className="text-2xl md:text-3xl font-medium leading-tight max-w-md">
-                        Fashion Forward: Stay In The Know With Our Newsletter
+const quickLinks = [
+    { label: 'My Account', href: '/account' },
+    { label: 'My Cart', href: '/cart' },
+    { label: 'Size Chart', href: '/pages/size-guide' },
+    { label: 'Wishlist', href: '/wishlist' },
+    { label: 'Gift Card', href: '/pages/gift-card' },
+]
+
+const paymentBadges = ['AMEX', 'DISC', 'JCB', 'MC', 'MAE', 'DINERS']
+
+const FooterHeading = ({ children }: { children: React.ReactNode }) => (
+    <h3 className="text-[var(--footer-title)] text-sm font-bold uppercase tracking-wide">{children}</h3>
+)
+
+interface FooterProps {
+    settings: SiteSettings
+    categories: Collection[]
+}
+
+const Footer = ({ settings, categories }: FooterProps) => {
+    const [subscribed, setSubscribed] = useState(false)
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+    const formRef = useRef<HTMLFormElement>(null)
+
+    const socialLinks = [
+        { label: 'Facebook', Icon: FacebookIcon, href: settings.facebookUrl },
+        { label: 'Twitter', Icon: TwitterIcon, href: settings.twitterUrl },
+        { label: 'Instagram', Icon: InstagramIcon, href: settings.instagramUrl },
+    ]
+
+    const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        formRef.current?.reset()
+        setSubscribed(true)
+        if (timeoutRef.current) clearTimeout(timeoutRef.current)
+        timeoutRef.current = setTimeout(() => setSubscribed(false), 3000)
+    }
+
+    return (
+        <footer className="bg-[var(--footer-bg)] text-[var(--footer-text)] py-16 md:py-20">
+            <div className="container-x">
+                {/* Newsletter row */}
+                <div className="flex flex-col gap-6 border-b border-[var(--footer-border)] pb-12 lg:flex-row lg:items-center lg:justify-between">
+                    <h2 className="max-w-md text-2xl font-medium leading-tight md:text-3xl">
+                        Fashion Forward: Stay in the Know with Our Newsletter
                     </h2>
-                    <div className="w-full md:w-auto flex-1 max-w-lg bg-white rounded-2xl md:rounded-full p-2 md:p-1.5 flex flex-col md:flex-row items-stretch md:items-center gap-2 md:gap-0">
-                        <input
-                            type="email"
-                            placeholder="Your email"
-                            className="flex-1 bg-transparent text-gray-800 px-4 md:px-6 py-2.5 outline-none text-sm w-full rounded-xl md:rounded-none"
-                        />
-                        <button className="w-full md:w-auto bg-black text-white hover:bg-gray-800 transition-colors px-8 py-3 rounded-xl md:rounded-full text-xs font-bold uppercase tracking-wide flex items-center justify-center gap-2 md:ml-2">
-                            Subscribe
-                            <span>→</span>
-                        </button>
+                    <div className="w-full max-w-lg lg:w-auto">
+                        <form ref={formRef} onSubmit={handleSubscribe} className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                            <input
+                                type="email"
+                                required
+                                placeholder="Your email address"
+                                aria-label="Email address"
+                                className="w-full flex-1 rounded-full bg-white px-5 py-3.5 text-sm text-gray-900 outline-none placeholder:text-gray-500 sm:min-w-[260px]"
+                            />
+                            <button type="submit" className="btn-theme shrink-0">
+                                Subscribe
+                                <ArrowRightIcon />
+                            </button>
+                        </form>
+                        <p
+                            className={`mt-2 text-sm text-[var(--footer-title)] transition-opacity duration-300 ${
+                                subscribed ? 'opacity-100' : 'opacity-0'
+                            }`}
+                            role="status"
+                        >
+                            Thanks for subscribing!
+                        </p>
                     </div>
-                    {/*<div className="w-full md:w-auto flex-1 max-w-lg bg-white rounded-full p-1.5 flex items-center">*/}
-                    {/*    <input*/}
-                    {/*        type="email"*/}
-                    {/*        placeholder="Your email"*/}
-                    {/*        className="flex-1 bg-transparent text-gray-800 px-6 py-2 outline-none text-sm"*/}
-                    {/*    />*/}
-                    {/*    <button className="bg-black text-white hover:bg-gray-800 transition-colors px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wide flex items-center gap-2">*/}
-                    {/*        Subscribe*/}
-                    {/*        <span>→</span>*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
                 </div>
 
-                {/* ===== LINKS & INFO SECTION ===== */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-10 py-12">
-
-                    {/* Col 1: Get In Touch */}
+                {/* Link columns */}
+                <div className="grid grid-cols-1 gap-10 py-12 sm:grid-cols-2 lg:grid-cols-5">
                     <div className="space-y-4">
-                        <h3 className="text-red-500 font-bold uppercase text-sm tracking-wide">Get In Touch</h3>
-                        <div className="space-y-3 text-sm text-gray-300">
-                            <p>T: + (08) 9055 0269</p>
-                            <p>E: example@example.com</p>
-                            <p className="leading-relaxed">
-                                50 Porana Place, West Casuarinas,<br />
-                                Western Australia, Australia.
-                            </p>
+                        <FooterHeading>Get in Touch</FooterHeading>
+                        <div className="space-y-3 text-sm opacity-75">
+                            <p>T: {settings.contactPhone}</p>
+                            <p>E: {settings.contactEmail}</p>
+                            <p className="leading-relaxed">{settings.contactAddress}</p>
                         </div>
                     </div>
 
-                    {/* Col 2: Categories */}
                     <div className="space-y-4">
-                        <h3 className="text-red-500 font-bold uppercase text-sm tracking-wide">Categories</h3>
-                        <ul className="space-y-2 text-sm text-gray-300">
-                            <li><Link href="#" className="hover:text-white transition-colors">Accessories</Link></li>
-                            <li><Link href="#" className="hover:text-white transition-colors">Bags</Link></li>
-                            <li><Link href="#" className="hover:text-white transition-colors">Glasses</Link></li>
-                            <li><Link href="#" className="hover:text-white transition-colors">Men</Link></li>
-                            <li><Link href="#" className="hover:text-white transition-colors">Outerwear</Link></li>
+                        <FooterHeading>Categories</FooterHeading>
+                        <ul className="space-y-2.5 text-sm">
+                            {categories.map((c) => (
+                                <li key={c.slug}>
+                                    <Link href={`/shop/${c.slug}`} className="opacity-75 transition-colors hover:text-[var(--g-main-2)] hover:opacity-100">
+                                        {c.name}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
-                    {/* Col 3: Information */}
                     <div className="space-y-4">
-                        <h3 className="text-red-500 font-bold uppercase text-sm tracking-wide">Information</h3>
-                        <ul className="space-y-2 text-sm text-gray-300">
-                            <li><Link href="#" className="hover:text-white transition-colors">About Us</Link></li>
-                            <li><Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-                            <li><Link href="#" className="hover:text-white transition-colors">Returns Policy</Link></li>
-                            <li><Link href="#" className="hover:text-white transition-colors">Shipping Policy</Link></li>
-                            <li><Link href="#" className="hover:text-white transition-colors">Terms & Conditions</Link></li>
+                        <FooterHeading>Information</FooterHeading>
+                        <ul className="space-y-2.5 text-sm">
+                            {informationLinks.map((link) => (
+                                <li key={link.href}>
+                                    <Link href={link.href} className="opacity-75 transition-colors hover:text-[var(--g-main-2)] hover:opacity-100">
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
-                    {/* Col 4: Quick Links */}
                     <div className="space-y-4">
-                        <h3 className="text-red-500 font-bold uppercase text-sm tracking-wide">Quick Links</h3>
-                        <ul className="space-y-2 text-sm text-gray-300">
-                            <li><Link href="#" className="hover:text-white transition-colors">My Account</Link></li>
-                            <li><Link href="#" className="hover:text-white transition-colors">My Cart</Link></li>
-                            <li><Link href="#" className="hover:text-white transition-colors">Size Chart</Link></li>
-                            <li><Link href="#" className="hover:text-white transition-colors">Wishlist</Link></li>
-                            <li><Link href="#" className="hover:text-white transition-colors">Gift Card</Link></li>
+                        <FooterHeading>Quick Links</FooterHeading>
+                        <ul className="space-y-2.5 text-sm">
+                            {quickLinks.map((link) => (
+                                <li key={link.href}>
+                                    <Link href={link.href} className="opacity-75 transition-colors hover:text-[var(--g-main-2)] hover:opacity-100">
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
-                    {/* Col 5: Brand & Bio */}
-                    <div className="space-y-6 md:col-span-1">
-                        <div className="space-y-2">
-                            <h2 className="text-3xl font-bold tracking-tight">Rosyz.</h2>
-                            <p className="text-sm text-gray-400 leading-relaxed">
-                                Rosyz Shopify is a dynamic and innovative online retail platform that offers a wide range of products to customers worldwide.
-                            </p>
-                        </div>
-
-                        {/* Social Icons */}
+                    <div className="space-y-5">
+                        <Image src={settings.logoDark} alt={settings.siteName} width={130} height={40} className="h-auto w-32" />
+                        <p className="text-sm leading-relaxed opacity-75">{settings.footerDescription}</p>
                         <div className="flex gap-3">
-                            <Link href="#" className="bg-white/10 hover:bg-white/20 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                                <FacebookIcon />
-                            </Link>
-                            <Link href="#" className="bg-white/10 hover:bg-white/20 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                                <TwitterIcon />
-                            </Link>
-                            <Link href="#" className="bg-white/10 hover:bg-white/20 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                                <InstagramIcon />
-                            </Link>
+                            {socialLinks.map(({ label, Icon, href }) => (
+                                <Link
+                                    key={label}
+                                    href={href}
+                                    aria-label={label}
+                                    className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-[var(--g-main-2)]"
+                                >
+                                    <Icon />
+                                </Link>
+                            ))}
                         </div>
                     </div>
+                </div>
 
+                {/* Bottom row */}
+                <div className="flex flex-col items-center justify-between gap-6 border-t border-[var(--footer-border)] pt-8 md:flex-row">
+                    <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+                        <select
+                            aria-label="Currency selector"
+                            defaultValue="Singapore (USD $)"
+                            className="rounded-full border border-[var(--g-input-border)] bg-transparent px-4 py-2 text-xs uppercase tracking-wide text-[var(--footer-text)] outline-none"
+                        >
+                            <option className="text-gray-900">Singapore (USD $)</option>
+                            <option className="text-gray-900">Australia (USD $)</option>
+                            <option className="text-gray-900">United Kingdom (USD $)</option>
+                            <option className="text-gray-900">United States (USD $)</option>
+                        </select>
+                        <p className="text-xs opacity-60">Copyright &copy; {new Date().getFullYear()} {settings.copyrightText}</p>
+                    </div>
+
+                    <ul className="flex list-none flex-wrap items-center justify-center gap-2">
+                        <li>
+                            <svg className="h-6 w-9 rounded" viewBox="0 0 38 24" fill="none" aria-label="Visa">
+                                <rect width="38" height="24" rx="4" fill="#142FBD" />
+                                <rect x="1" y="1" width="36" height="22" rx="3" fill="#1532CB" />
+                                <text x="19" y="16" textAnchor="middle" fontSize="9" fontWeight="700" fontStyle="italic" fill="#ffffff">
+                                    VISA
+                                </text>
+                            </svg>
+                        </li>
+                        {paymentBadges.map((label) => (
+                            <li
+                                key={label}
+                                className="flex h-6 w-9 items-center justify-center rounded border border-[var(--g-input-border)] text-center text-[7px] font-bold uppercase leading-none opacity-70"
+                            >
+                                {label}
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
         </footer>

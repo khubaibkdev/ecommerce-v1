@@ -3,110 +3,263 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useCart } from '@/components/CartContext'
+import { useWishlist } from '@/components/WishlistContext'
+import { useCompare } from '@/components/CompareContext'
+import { HeartIcon, CompareIcon, StarIcon, MinusIcon, PlusIcon } from '@/components/icons'
+import Carousel from '@/components/Carousel'
+import ProductCard from '@/components/ProductCard'
+import { formatPrice, type Product, type ProductSwatch } from '@/lib/products'
 
 interface ProductDetailsProps {
-    name: string;
-    price: number;
-    availability: number;
-    image: string;
+    product: Product
+    relatedProducts: Product[]
 }
 
-const ProductDetails = ({ name, price, availability, image }: ProductDetailsProps) => {
-    const [quantity, setQuantity] = useState(1);
-
+const ProductDetails = ({ product, relatedProducts }: ProductDetailsProps) => {
+    const router = useRouter()
     const { addToCart } = useCart()
+    const { isWishlisted, toggleWishlist } = useWishlist()
+    const { toggleCompare } = useCompare()
 
-    const handleQuantity = (type: 'increase' | 'decrease') => {
-        if (type === 'increase') setQuantity(prev => prev + 1);
-        if (type === 'decrease' && quantity > 1) setQuantity(prev => prev - 1);
+    const [activeImage, setActiveImage] = useState(product.image)
+    const [selectedSwatch, setSelectedSwatch] = useState<ProductSwatch | undefined>(product.swatches?.[0])
+    const [quantity, setQuantity] = useState(1)
+
+    const discountPercent = product.compareAtPrice
+        ? Math.round(((product.compareAtPrice - product.price) / product.compareAtPrice) * 100)
+        : null
+
+    const categoryLabel = product.category.charAt(0).toUpperCase() + product.category.slice(1)
+    const showThumbnails = product.hoverImage !== product.image
+
+    const handleSwatchClick = (swatch: ProductSwatch) => {
+        setSelectedSwatch(swatch)
+        setActiveImage(swatch.image)
+    }
+
+    const addSelectedToCart = () => {
+        for (let i = 0; i < quantity; i++) {
+            addToCart({
+                id: product.id,
+                title: product.title,
+                price: product.price,
+                image: activeImage,
+            })
+        }
+    }
+
+    const handleBuyNow = () => {
+        addSelectedToCart()
+        router.push('/checkout')
+    }
+
+    const handleCompareClick = () => {
+        const added = toggleCompare(product.id)
+        if (!added) {
+            alert('You can compare up to 4 products at a time.')
+        }
     }
 
     return (
-        <section className="container mx-auto px-4 py-8 md:py-12">
+        <>
+            <section className="container-x py-8 md:py-14">
+                {/* Breadcrumb */}
+                <nav className="flex items-center gap-2 text-sm text-[var(--g-color-heading)] opacity-70 mb-8">
+                    <Link href="/" className="hover:opacity-100 transition-opacity">
+                        Home
+                    </Link>
+                    <span>/</span>
+                    <Link href={`/shop/${product.category}`} className="hover:opacity-100 transition-opacity">
+                        {categoryLabel}
+                    </Link>
+                    <span>/</span>
+                    <span className="opacity-100">{product.title}</span>
+                </nav>
 
-            {/* Breadcrumbs */}
-            <nav className="flex items-center text-sm text-gray-500 mb-8 gap-2">
-                <Link href="/" className="hover:text-black transition-colors">Home</Link>
-                <span>/</span>
-                <Link href="/men" className="hover:text-black transition-colors">Men</Link>
-                <span>/</span>
-                <span className="text-black font-medium">{name}</span>
-            </nav>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+                    {/* Left: images */}
+                    <div>
+                        <div className="relative aspect-[3/4] rounded-lg overflow-hidden bg-[var(--g-body-alt)]">
+                            <Image
+                                src={activeImage}
+                                alt={product.title}
+                                fill
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                className="object-cover"
+                                priority
+                            />
+                        </div>
 
-            {/* Main Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-
-                {/* Left Column: Image */}
-                <div className="relative w-full aspect-[4/5] bg-gray-50 rounded-lg overflow-hidden">
-                    <Image
-                        src={image}
-                        alt={name}
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                    {/* Arrow placeholders */}
-                    <button className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 rounded-full shadow-md flex items-center justify-center hover:scale-110 transition-all">‹</button>
-                    <button className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/80 rounded-full shadow-md flex items-center justify-center hover:scale-110 transition-all">›</button>
-                </div>
-
-                {/* Right Column: Info */}
-                <div className="flex flex-col">
-                    <h1 className="text-3xl md:text-4xl font-normal text-gray-900 mb-3">
-                        {name}
-                    </h1>
-
-                    <div className="flex items-center gap-6 mb-6">
-                        <span className="text-2xl font-medium">${price.toFixed(2)}</span>
-                        <span className="text-green-600 text-sm font-medium">{availability} Available</span>
+                        {showThumbnails && (
+                            <div className="flex gap-3 mt-4">
+                                {[product.image, product.hoverImage].map((img, i) => (
+                                    <button
+                                        key={img}
+                                        type="button"
+                                        onClick={() => setActiveImage(img)}
+                                        aria-label={`Show image ${i + 1} of ${product.title}`}
+                                        className={`relative w-[72px] h-[90px] rounded-md overflow-hidden border-2 transition-colors ${
+                                            activeImage === img ? 'border-[var(--g-main-2)]' : 'border-transparent'
+                                        }`}
+                                    >
+                                        <Image
+                                            src={img}
+                                            alt={`${product.title} thumbnail ${i + 1}`}
+                                            fill
+                                            sizes="72px"
+                                            className="object-cover"
+                                        />
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
-                    <p className="text-gray-600 leading-relaxed mb-8 border-b border-gray-100 pb-8">
-                        Experience unparalleled style with our premium {name.toLowerCase()}. Crafted with the finest materials, this piece offers both comfort and elegance for any occasion.
-                    </p>
+                    {/* Right: info */}
+                    <div className="flex flex-col">
+                        <Link href="#" className="text-xs uppercase tracking-wider opacity-60 mb-2 w-fit">
+                            {product.vendor}
+                        </Link>
 
-                    {/* Stock Progress Bar */}
-                    <div className="mb-6">
-                        <p className="text-red-500 text-sm mb-2">
-                            Hurrify, {availability} item(s) left in stock!
+                        <h1 className="text-3xl md:text-4xl font-semibold text-[var(--g-color-heading)] mb-3">
+                            {product.title}
+                        </h1>
+
+                        <div className="flex items-center gap-2 mb-4">
+                            <div className="flex items-center gap-0.5">
+                                {Array.from({ length: product.rating }).map((_, i) => (
+                                    <StarIcon key={i} className="w-3.5 h-3" />
+                                ))}
+                            </div>
+                            <span className="text-sm opacity-60">({product.reviews} reviews)</span>
+                        </div>
+
+                        <div className="flex items-center gap-3 flex-wrap mb-6">
+                            <span className="text-2xl font-bold text-[var(--g-color-heading)]">
+                                {formatPrice(product.price)}
+                            </span>
+                            {product.compareAtPrice && (
+                                <s className="text-base opacity-50">{formatPrice(product.compareAtPrice)}</s>
+                            )}
+                            {discountPercent !== null && (
+                                <span
+                                    className="text-xs font-bold px-2.5 py-1 rounded-full text-white"
+                                    style={{ backgroundColor: 'var(--g-main-2)' }}
+                                >
+                                    -{discountPercent}% OFF
+                                </span>
+                            )}
+                        </div>
+
+                        <p className="text-sm opacity-70 leading-relaxed border-b border-[var(--g-border)] pb-6 mb-6">
+                            {product.description}
                         </p>
-                        <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                            <div className="h-full bg-red-500 rounded-full" style={{ width: '70%' }}></div>
+
+                        {product.soldOut ? (
+                            <div className="mb-6">
+                                <span
+                                    className="inline-block px-3 py-1 rounded-full text-sm font-semibold"
+                                    style={{ color: 'var(--sold-out-text)', backgroundColor: 'var(--sold-out-bg)' }}
+                                >
+                                    Sold Out
+                                </span>
+                            </div>
+                        ) : (
+                            <>
+                                {product.swatches && selectedSwatch && (
+                                    <div className="mb-6">
+                                        <p className="text-sm font-medium text-[var(--g-color-heading)] mb-2">
+                                            Color: {selectedSwatch.name}
+                                        </p>
+                                        <div className="flex items-center gap-2">
+                                            {product.swatches.map((swatch) => (
+                                                <button
+                                                    key={swatch.name}
+                                                    type="button"
+                                                    title={swatch.name}
+                                                    aria-label={`Select color ${swatch.name}`}
+                                                    onClick={() => handleSwatchClick(swatch)}
+                                                    className={`w-7 h-7 rounded-full border-2 transition-transform hover:scale-110 ${
+                                                        selectedSwatch.name === swatch.name
+                                                            ? 'border-[var(--g-main-2)]'
+                                                            : 'border-transparent'
+                                                    }`}
+                                                    style={{ backgroundColor: swatch.color }}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="flex items-center border border-[var(--g-border)] rounded-full h-12 px-1 w-fit mb-6">
+                                    <button
+                                        type="button"
+                                        onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                                        className="w-10 h-10 flex items-center justify-center text-[var(--g-color-heading)]"
+                                        aria-label="Decrease quantity"
+                                    >
+                                        <MinusIcon className="w-3 h-3" />
+                                    </button>
+                                    <span className="w-10 text-center font-medium text-[var(--g-color-heading)]">
+                                        {quantity}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        onClick={() => setQuantity((q) => q + 1)}
+                                        className="w-10 h-10 flex items-center justify-center text-[var(--g-color-heading)]"
+                                        aria-label="Increase quantity"
+                                    >
+                                        <PlusIcon className="w-3 h-3" />
+                                    </button>
+                                </div>
+
+                                <div className="flex gap-4 flex-wrap mb-6">
+                                    <button type="button" onClick={addSelectedToCart} className="btn-outline">
+                                        Add to Cart
+                                    </button>
+                                    <button type="button" onClick={handleBuyNow} className="btn-theme">
+                                        Buy It Now
+                                    </button>
+                                </div>
+                            </>
+                        )}
+
+                        <div className="flex items-center gap-6 border-t border-[var(--g-border)] pt-6 mt-6">
+                            <button
+                                type="button"
+                                onClick={() => toggleWishlist(product.id)}
+                                className="flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100 hover:text-[var(--g-main-2)] transition-colors"
+                            >
+                                <HeartIcon className="w-4 h-4" filled={isWishlisted(product.id)} />
+                                Add to Wishlist
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleCompareClick}
+                                className="flex items-center gap-2 text-sm font-medium opacity-70 hover:opacity-100 hover:text-[var(--g-main-2)] transition-colors"
+                            >
+                                <CompareIcon className="w-4 h-4" />
+                                Compare
+                            </button>
                         </div>
-                    </div>
-
-                    {/* Quantity & Buttons */}
-                    <div className="flex flex-wrap items-center gap-4 mb-8">
-                        <div className="flex items-center border border-gray-200 rounded-full h-12 px-1">
-                            <button onClick={() => handleQuantity('decrease')} className="w-10 h-10 text-xl">-</button>
-                            <span className="w-10 text-center font-medium">{quantity}</span>
-                            <button onClick={() => handleQuantity('increase')} className="w-10 h-10 text-xl">+</button>
-                        </div>
-                        <button
-                            onClick={() => {
-                                addToCart({
-                                    id: Date.now(), // Generates a temp ID, replace with real ID later
-                                    title: name,
-                                    price: price, // Make sure price is passed as a number, not string
-                                    image: image,
-                                })
-                                // alert(`${name} added to cart!`);
-                            }}
-                            className="flex-1 min-w-[140px] h-12 rounded-full border-2 border-black text-black font-medium hover:bg-black hover:text-white transition-all duration-300"
-                        >
-                            ADD TO CART
-                        </button>                        <button className="flex-1 min-w-[140px] h-12 rounded-full bg-black text-white hover:bg-gray-800 transition-all">BUY IT NOW</button>
-                    </div>
-
-
-                    <div className="flex items-center gap-6 border-t border-gray-100 pt-6">
-                        <button className="flex items-center gap-2 text-gray-700 hover:text-red-500 text-sm font-medium">♡ Add To Wishlist</button>
-                        <button className="flex items-center gap-2 text-gray-700 hover:text-blue-500 text-sm font-medium">⇄ Compare</button>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+
+            {relatedProducts.length > 0 && (
+                <section className="container-x mt-16 md:mt-24 mb-16 md:mb-24">
+                    <p className="subtop mb-3">You May Also Like</p>
+                    <h2 className="section-title mb-8">Related Products</h2>
+                    <Carousel itemClassName="w-[70%] sm:w-1/2 lg:w-1/4" gapClassName="gap-6">
+                        {relatedProducts.map((p) => (
+                            <ProductCard product={p} key={p.id} />
+                        ))}
+                    </Carousel>
+                </section>
+            )}
+        </>
     )
 }
 
