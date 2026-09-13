@@ -1,10 +1,34 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getBlogPosts, getPostByHandle } from '@/lib/content'
+import { BlogPostJsonLd, BreadcrumbJsonLd } from '@/components/JsonLd'
 
 interface PageProps {
     params: Promise<{ handle: string }>
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const { handle } = await params
+    const post = await getPostByHandle(handle)
+    if (!post) return {}
+    const imgUrl = post.image.startsWith('http') ? post.image : `https://glorastyle.com${post.image}`
+    return {
+        title: post.title,
+        description: post.excerpt,
+        alternates: { canonical: `/blog/${handle}` },
+        openGraph: {
+            title: `${post.title} | Glora Styles Blog`,
+            description: post.excerpt,
+            url: `https://glorastyle.com/blog/${handle}`,
+            type: 'article',
+            publishedTime: post.date,
+            authors: [post.author],
+            images: [{ url: imgUrl, alt: post.title }],
+        },
+        twitter: { card: 'summary_large_image', title: post.title, description: post.excerpt, images: [imgUrl] },
+    }
 }
 
 const BlogPostPage = async ({ params }: PageProps) => {
@@ -28,6 +52,12 @@ const BlogPostPage = async ({ params }: PageProps) => {
 
     return (
         <article className="container-x py-14 md:py-20">
+            <BreadcrumbJsonLd items={[
+                { name: 'Home', url: 'https://glorastyle.com' },
+                { name: 'Blog', url: 'https://glorastyle.com/blog' },
+                { name: post.title, url: `https://glorastyle.com/blog/${post.handle}` },
+            ]} />
+            <BlogPostJsonLd post={post} />
             <nav className="mb-6 text-sm opacity-60">
                 <Link href="/" className="hover:text-[var(--g-main-2)]">
                     Home

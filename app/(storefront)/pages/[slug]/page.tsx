@@ -1,12 +1,30 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { getStaticPage } from '@/lib/pages'
 import { getProducts } from '@/lib/products'
 import ContactForm from '@/components/ContactForm'
+import { BreadcrumbJsonLd } from '@/components/JsonLd'
 
 interface PageProps {
     params: Promise<{ slug: string }>
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const { slug } = await params
+    const page = await getStaticPage(slug)
+    if (!page) return {}
+    return {
+        title: page.title,
+        description: page.intro || `${page.title} — Glora Styles`,
+        alternates: { canonical: `/pages/${slug}` },
+        openGraph: {
+            title: `${page.title} | Glora Styles`,
+            description: page.intro || `${page.title} — Glora Styles`,
+            url: `https://glorastyle.com/pages/${slug}`,
+        },
+    }
 }
 
 const StaticContentPage = async ({ params }: PageProps) => {
@@ -28,6 +46,10 @@ const StaticContentPage = async ({ params }: PageProps) => {
 
     return (
         <div className="container-x py-14 md:py-20">
+            <BreadcrumbJsonLd items={[
+                { name: 'Home', url: 'https://glorastyle.com' },
+                { name: page.title, url: `https://glorastyle.com/pages/${page.slug}` },
+            ]} />
             <nav className="mb-8 text-sm opacity-60">
                 <Link href="/" className="hover:text-[var(--g-main-2)]">
                     Home

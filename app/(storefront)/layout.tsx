@@ -19,13 +19,38 @@ import { UIStateProvider } from "@/components/UIStateContext"
 import { getCollections, getProducts } from "@/lib/products"
 import { getBlogPosts, getRecentPurchases } from "@/lib/content"
 import { getSiteSettings } from "@/lib/settings"
+import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/JsonLd"
 
 export async function generateMetadata(): Promise<Metadata> {
     const settings = await getSiteSettings()
     return {
-        title: settings.seoTitle,
+        title: {
+            default: settings.seoTitle,
+            template: `%s | Glora Styles`,
+        },
         description: settings.seoDescription,
         icons: { icon: settings.favicon },
+        metadataBase: new URL('https://glorastyle.com'),
+        alternates: { canonical: '/' },
+        openGraph: {
+            type: 'website',
+            siteName: 'Glora Styles',
+            title: settings.seoTitle,
+            description: settings.seoDescription,
+            url: 'https://glorastyle.com',
+            images: [{ url: '/glora-asset/banner.png', width: 1200, height: 630, alt: 'Glora Styles' }],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: settings.seoTitle,
+            description: settings.seoDescription,
+            images: ['/glora-asset/banner.png'],
+        },
+        robots: {
+            index: true,
+            follow: true,
+            googleBot: { index: true, follow: true, 'max-video-preview': -1, 'max-image-preview': 'large', 'max-snippet': -1 },
+        },
     }
 }
 
@@ -45,6 +70,10 @@ export default async function RootLayout({
 
     return (
         <html lang="en" className="h-full antialiased" suppressHydrationWarning>
+        <head>
+            <OrganizationJsonLd />
+            <WebSiteJsonLd />
+        </head>
         <body className="flex min-h-screen flex-col" style={{ backgroundColor: "var(--g-body)" }} suppressHydrationWarning>
         <ThemeProvider>
             <UIStateProvider>

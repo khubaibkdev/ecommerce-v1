@@ -1,13 +1,31 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getBlogPosts } from '@/lib/content'
+import { BlogListJsonLd, BreadcrumbJsonLd } from '@/components/JsonLd'
+
+export const metadata: Metadata = {
+    title: 'Fashion & Beauty Blog',
+    description: 'Style guides, beauty tips, trend reports & fashion inspiration from Glora Styles. Stay ahead of the curve with expert insights.',
+    alternates: { canonical: '/blog' },
+    openGraph: {
+        title: 'Fashion & Beauty Blog | Glora Styles',
+        description: 'Style guides, beauty tips, trend reports & fashion inspiration from Glora Styles.',
+        url: 'https://glorastyle.com/blog',
+    },
+}
 
 const BlogIndexPage = async () => {
     const blogPosts = await getBlogPosts()
 
     return (
         <div className="container-x py-14 md:py-20">
+            <BreadcrumbJsonLd items={[
+                { name: 'Home', url: 'https://glorastyle.com' },
+                { name: 'Blog', url: 'https://glorastyle.com/blog' },
+            ]} />
+            <BlogListJsonLd posts={blogPosts} />
             <div className="mb-12 text-center md:mb-16">
                 <p className="subtop mb-3">Explore Our Latest Fashion Insights</p>
                 <h1 className="section-title">The Journal</h1>

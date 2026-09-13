@@ -1,4 +1,5 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import HeroSlideshow from '@/components/home/HeroSlideshow'
 import CollectionsCarousel from '@/components/home/CollectionsCarousel'
 import GridBanner from '@/components/home/GridBanner'
@@ -12,6 +13,17 @@ import BrandCarousel from '@/components/home/BrandCarousel'
 import { getHeroSlides } from '@/lib/content'
 import { getProducts } from '@/lib/products'
 
+export const metadata: Metadata = {
+    title: 'Glora Styles — Luxury Women\'s Fashion, Lingerie & Beauty',
+    description: 'Shop luxury women\'s fashion, lingerie, skincare, swimwear & accessories at Glora Styles. Curated elegance with worldwide shipping. Discover your signature style.',
+    alternates: { canonical: '/' },
+    openGraph: {
+        title: 'Glora Styles — Luxury Women\'s Fashion, Lingerie & Beauty',
+        description: 'Shop luxury women\'s fashion, lingerie, skincare, swimwear & accessories at Glora Styles. Curated elegance with worldwide shipping.',
+        url: 'https://glorastyle.com',
+    },
+}
+
 const SectionHeading = ({ eyebrow, title }: { eyebrow: string; title: string }) => (
     <div className="mb-10 text-center md:mb-14">
         <p className="subtop mb-3">{eyebrow}</p>
@@ -24,6 +36,7 @@ const Page = async () => {
 
     return (
         <>
+            <h1 className="sr-only">Glora Styles — Luxury Women&apos;s Fashion &amp; Beauty Store</h1>
             <HeroSlideshow slides={heroSlides} />
 
             <section className="container-x py-16 md:py-24">
