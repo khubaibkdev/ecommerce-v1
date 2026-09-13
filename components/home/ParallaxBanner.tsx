@@ -9,7 +9,7 @@ const ParallaxBanner = async () => {
         <section className="relative flex min-h-[480px] w-full items-center md:min-h-[620px]">
             <Image
                 src={settings.parallaxImage}
-                alt="Fashion model wearing a Rosyz outfit against a styled backdrop"
+                alt="Glora Styles outfit and accessories styled against a sunlit backdrop"
                 fill
                 sizes="100vw"
                 className="object-cover"

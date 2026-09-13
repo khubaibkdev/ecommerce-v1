@@ -16,6 +16,7 @@ export interface Product {
     compareAtPrice?: number
     image: string
     hoverImage: string
+    affiliateUrl?: string
     swatches?: ProductSwatch[]
     tabs: Array<'featured' | 'new-arrival' | 'best-seller'>
     category: string
@@ -47,6 +48,7 @@ const toProduct = (p: ProductWithRelations): Product => ({
     compareAtPrice: p.compareAtPrice ?? undefined,
     image: p.image,
     hoverImage: p.hoverImage,
+    affiliateUrl: p.affiliateUrl ?? undefined,
     swatches: p.swatches.length
         ? p.swatches.sort((a, b) => a.position - b.position).map((s) => ({ name: s.name, color: s.color, image: s.image }))
         : undefined,

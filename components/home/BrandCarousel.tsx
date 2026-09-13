@@ -18,7 +18,7 @@ const BrandCarousel = async () => {
                 <Link href="#" key={image + i} className="group relative block aspect-square overflow-hidden rounded-lg">
                     <Image
                         src={image}
-                        alt={`Rosyz Instagram photo ${i + 1}`}
+                        alt={`Glora Styles Instagram photo ${i + 1}`}
                         fill
                         sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 16vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-105"

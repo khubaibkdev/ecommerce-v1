@@ -90,6 +90,16 @@ const ProductForm = ({ action, product, categories, media }: ProductFormProps) =
             </Card>
 
             <Card className="flex flex-col gap-4">
+                <Field
+                    label="Affiliate / External Link"
+                    htmlFor="affiliateUrl"
+                    hint="Optional. If set, Add to Cart and Buy It Now on the product page send shoppers straight to this URL instead of using the store's cart."
+                >
+                    <Input id="affiliateUrl" name="affiliateUrl" type="url" placeholder="https://example.com/product" defaultValue={product?.affiliateUrl} />
+                </Field>
+            </Card>
+
+            <Card className="flex flex-col gap-4">
                 <Field label="Description" htmlFor="description">
                     <Textarea id="description" name="description" rows={5} defaultValue={product?.description} />
                 </Field>

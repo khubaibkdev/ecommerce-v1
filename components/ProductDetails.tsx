@@ -40,6 +40,10 @@ const ProductDetails = ({ product, relatedProducts }: ProductDetailsProps) => {
     }
 
     const addSelectedToCart = () => {
+        if (product.affiliateUrl) {
+            window.location.href = product.affiliateUrl
+            return
+        }
         for (let i = 0; i < quantity; i++) {
             addToCart({
                 id: product.id,
@@ -51,6 +55,10 @@ const ProductDetails = ({ product, relatedProducts }: ProductDetailsProps) => {
     }
 
     const handleBuyNow = () => {
+        if (product.affiliateUrl) {
+            window.location.href = product.affiliateUrl
+            return
+        }
         addSelectedToCart()
         router.push('/checkout')
     }

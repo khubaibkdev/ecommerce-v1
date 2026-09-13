@@ -37,6 +37,10 @@ const QuickViewModal = () => {
     if (!product) return null
 
     const handleAddToCart = () => {
+        if (product.affiliateUrl) {
+            window.location.href = product.affiliateUrl
+            return
+        }
         for (let i = 0; i < quantity; i++) {
             addToCart({
                 id: product.id,

@@ -34,7 +34,7 @@ const CheckoutPage = () => {
                 {/* Header with Logo */}
                 <div className="mb-8 pb-4 border-b border-gray-100">
                     <Link href="/" className="text-2xl font-bold text-black">
-                        Rosyz.
+                        Glora Styles.
                     </Link>
                 </div>
 

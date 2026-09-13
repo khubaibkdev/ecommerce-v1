@@ -6,7 +6,7 @@ import { getSession } from '@/lib/session'
 import { logoutAction } from '@/app/admin/login/actions'
 
 export const metadata: Metadata = {
-    title: 'Rosyz Admin',
+    title: 'Glora Admin',
     description: 'Store administration dashboard.',
 }
 
@@ -22,14 +22,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                     <div className="flex min-h-screen">
                         <aside className="hidden w-60 shrink-0 border-r border-slate-200 bg-white md:block">
                             <div className="border-b border-slate-200 px-4 py-4">
-                                <span className="text-sm font-semibold uppercase tracking-wide text-slate-900">Rosyz Admin</span>
+                                <span className="text-sm font-semibold uppercase tracking-wide text-slate-900">Glora Admin</span>
                             </div>
                             <AdminSidebar />
                         </aside>
 
                         <div className="flex min-w-0 flex-1 flex-col">
                             <header className="flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 md:px-6">
-                                <span className="text-sm text-slate-500 md:hidden">Rosyz Admin</span>
+                                <span className="text-sm text-slate-500 md:hidden">Glora Admin</span>
                                 <div className="ml-auto flex items-center gap-4 text-sm">
                                     <Link href="/" target="_blank" className="text-slate-600 hover:text-slate-900">
                                         View Store ↗

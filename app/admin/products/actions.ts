@@ -26,6 +26,7 @@ function readProductFields(formData: FormData) {
         compareAtPrice: formData.get('compareAtPrice') ? Number(formData.get('compareAtPrice')) : null,
         image: String(formData.get('image') || '').trim(),
         hoverImage: String(formData.get('hoverImage') || formData.get('image') || '').trim(),
+        affiliateUrl: String(formData.get('affiliateUrl') || '').trim() || null,
         categorySlug: String(formData.get('category') || '').trim(),
         productType: String(formData.get('productType') || '').trim(),
         sizes: JSON.stringify(formData.getAll('sizes').map(String)),

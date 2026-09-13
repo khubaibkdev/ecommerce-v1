@@ -38,6 +38,7 @@ model Product {
   compareAtPrice Float?
   image          String
   hoverImage     String
+  affiliateUrl   String?
   categorySlug   String
   category       Category        @relation(fields: [categorySlug], references: [slug])
   productType    String

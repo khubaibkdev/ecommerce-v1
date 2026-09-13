@@ -130,14 +130,18 @@ const ProductCard = ({ product }: { product: Product }) => {
                 {!product.soldOut && (
                     <button
                         type="button"
-                        onClick={() =>
+                        onClick={() => {
+                            if (product.affiliateUrl) {
+                                window.location.href = product.affiliateUrl
+                                return
+                            }
                             addToCart({
                                 id: product.id,
                                 title: product.title,
                                 price: product.price,
                                 image: product.image,
                             })
-                        }
+                        }}
                         className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide opacity-70 hover:opacity-100 hover:text-[var(--g-main-2)]"
                     >
                         <PlusIcon className="h-2.5 w-2.5" /> Add to Cart

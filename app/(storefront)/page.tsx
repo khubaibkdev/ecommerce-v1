@@ -65,7 +65,7 @@ const Page = async () => {
             </section>
 
             <section className="container-x py-16 md:py-24">
-                <SectionHeading eyebrow="Follow Us" title="@Rosyz_Fashion_Store" />
+                <SectionHeading eyebrow="Follow Us" title="@Glora_Styles" />
                 <BrandCarousel />
             </section>
         </>

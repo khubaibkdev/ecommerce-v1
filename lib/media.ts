@@ -1,11 +1,12 @@
 import 'server-only'
-import { mkdir, writeFile, unlink } from 'fs/promises'
-import path from 'path'
-import { put, del } from '@vercel/blob'
+import { v2 as cloudinary } from 'cloudinary'
 import { prisma } from '@/lib/db'
 
-const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads')
-const useBlob = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN)
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 function sanitizeFilename(name: string) {
     return name.replace(/[^a-zA-Z0-9.\-_]/g, '-').toLowerCase()
@@ -15,19 +16,17 @@ export async function saveUploadedFile(file: File) {
     if (!file || file.size === 0) return null
 
     const filename = `${Date.now()}-${sanitizeFilename(file.name || 'upload')}`
+    const bytes = Buffer.from(await file.arrayBuffer())
+    const base64 = `data:${file.type};base64,${bytes.toString('base64')}`
 
-    let url: string
-    if (useBlob()) {
-        const blob = await put(filename, file, { access: 'public' })
-        url = blob.url
-    } else {
-        await mkdir(UPLOAD_DIR, { recursive: true })
-        const bytes = Buffer.from(await file.arrayBuffer())
-        await writeFile(path.join(UPLOAD_DIR, filename), bytes)
-        url = `/uploads/${filename}`
-    }
+    const result = await cloudinary.uploader.upload(base64, {
+        public_id: filename,
+        folder: 'media',
+    })
 
-    return prisma.media.create({ data: { url, filename, altText: '' } })
+    return prisma.media.create({
+        data: { url: result.secure_url, filename, altText: '' },
+    })
 }
 
 export async function listMedia() {
@@ -37,11 +36,10 @@ export async function listMedia() {
 export async function deleteMediaRecord(id: number) {
     const media = await prisma.media.delete({ where: { id } })
     try {
-        if (media.url.startsWith('/uploads/')) {
-            await unlink(path.join(UPLOAD_DIR, media.filename))
-        } else {
-            await del(media.url)
-        }
+        const parts = media.url.split('/')
+        const folderAndFile = parts.slice(parts.indexOf('media')).join('/')
+        const publicId = folderAndFile.replace(/\.[^.]+$/, '')
+        await cloudinary.uploader.destroy(publicId)
     } catch {
         // file already gone — nothing to clean up
     }
