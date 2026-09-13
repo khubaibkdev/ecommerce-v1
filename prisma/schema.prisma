@@ -172,7 +172,7 @@ model SiteSettings {
   tagline   String @default("Fashion & Lifestyle Store")
   logoLight String @default("/glora-asset/logo.png")
   logoDark  String @default("/glora-asset/logo.png")
-  favicon   String @default("/favicon.ico")
+  favicon   String @default("/glora-asset/logo.png")
 
   footerDescription String @default("Glora Styles is a dynamic and innovative online fashion retailer bringing curated style to customers worldwide.")
   contactPhone      String @default("+ (08) 9055 0269")
