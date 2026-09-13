@@ -18,7 +18,7 @@ export const CompareProvider = ({ children }: { children: React.ReactNode }) => 
     const [compareList, setCompareList] = useState<number[]>([])
 
     useEffect(() => {
-        const stored = localStorage.getItem('rosyz_compare')
+        const stored = localStorage.getItem('glora_compare')
         // Hydrating one-time client-only state from localStorage on mount is
         // intentional here — there is no SSR value to keep in sync with.
         // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -26,7 +26,7 @@ export const CompareProvider = ({ children }: { children: React.ReactNode }) => 
     }, [])
 
     useEffect(() => {
-        localStorage.setItem('rosyz_compare', JSON.stringify(compareList))
+        localStorage.setItem('glora_compare', JSON.stringify(compareList))
     }, [compareList])
 
     // returns false if the max-item cap blocked the add

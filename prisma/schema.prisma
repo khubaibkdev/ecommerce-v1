@@ -168,32 +168,32 @@ model RecentPurchase {
 model SiteSettings {
   id Int @id @default(1)
 
-  siteName  String @default("Rosyz")
+  siteName  String @default("Glora Styles")
   tagline   String @default("Fashion & Lifestyle Store")
-  logoLight String @default("/images/rosyz/logo.png")
-  logoDark  String @default("/images/rosyz/logo-light.png")
+  logoLight String @default("/glora-asset/logo.png")
+  logoDark  String @default("/glora-asset/logo.png")
   favicon   String @default("/favicon.ico")
 
-  footerDescription String @default("Rosyz is a dynamic and innovative online fashion retailer bringing curated style to customers worldwide.")
+  footerDescription String @default("Glora Styles is a dynamic and innovative online fashion retailer bringing curated style to customers worldwide.")
   contactPhone      String @default("+ (08) 9055 0269")
   contactEmail      String @default("example@example.com")
   contactAddress    String @default("50 Porana Place, West Casuarinas, Western Australia, Australia.")
   facebookUrl       String @default("#")
   twitterUrl        String @default("#")
   instagramUrl      String @default("#")
-  copyrightText     String @default("Rosyz. All rights reserved")
+  copyrightText     String @default("Glora Styles. All rights reserved")
 
-  parallaxImage      String @default("/images/rosyz/baner-bg.jpg")
-  parallaxEyebrow     String @default("Style Redefined")
-  parallaxHeadingL1   String @default("Your Passport to")
-  parallaxHeadingL2   String @default("Fashion Elegance")
-  parallaxText        String @default("Indulge in the art of fashion with Rosyz. Discover a world of sophistication and timeless elegance.")
-  parallaxButtonHref  String @default("/shop/men")
+  parallaxImage      String @default("/glora-asset/banner.png")
+  parallaxEyebrow     String @default("The Glora Experience")
+  parallaxHeadingL1   String @default("Where Elegance")
+  parallaxHeadingL2   String @default("Meets Style")
+  parallaxText        String @default("Indulge in the art of fashion with Glora Styles. Discover a world of sophistication, luxury, and timeless elegance.")
+  parallaxButtonHref  String @default("/shop/women")
 
   newsletterEnabled Boolean @default(true)
   newsletterHeading String  @default("Stay Styled, Stay Informed!")
   newsletterText    String  @default("Unlock Fashion Secrets and Exclusive Offers! Join our fashion community and be the first to know about the latest trends, exclusive collections, and insider deals.")
-  newsletterImage   String  @default("/images/rosyz/newsletter.jpg")
+  newsletterImage   String  @default("/glora-asset/poster-3.png")
 
   cookieBarEnabled Boolean @default(true)
   cookieBarText    String  @default("This website uses cookies to ensure you get the best experience on our website.")
@@ -203,8 +203,8 @@ model SiteSettings {
 
   bestSellerLimit Int @default(3)
 
-  seoTitle       String @default("Rosyz — Fashion & Lifestyle Store")
-  seoDescription String @default("Discover the latest fashion trends at Rosyz — elevate your style with our exclusive collection.")
+  seoTitle       String @default("Glora Styles — Fashion & Lifestyle Store")
+  seoDescription String @default("Discover the latest fashion trends at Glora Styles — elevate your style with our exclusive collection.")
   currencySymbol String @default("$")
 
   updatedAt DateTime @updatedAt

@@ -6,69 +6,69 @@
 :root {
   /* ---- brand tokens (light / default) ---- */
   --g-main: #222222;
-  --g-main-2: #e35353;
+  --g-main-2: #b8956a;
   --g-color-heading: #222222;
   --color-body-text: 34, 34, 34;
-  --g-body: #ffffff;
-  --g-body-alt: #f7f7f7;
-  --g-border: #e2e2e3;
-  --g-input-border: #dee2e6;
+  --g-body: #fffaf5;
+  --g-body-alt: #f5efe6;
+  --g-border: #e6ddd3;
+  --g-input-border: #d9cfc3;
   --g-input-bg: #ffffff;
 
-  --header-background: #ffffff;
-  --header-text: #2f3336;
-  --header-linkhover: #e35353;
-  --header-menudroptext: #6c747b;
-  --header-menudropbg: #ffffff;
-  --header-topbarbg: #f5f5f5;
-  --header-topborderbg: #e1e1e1;
+  --header-background: #fffaf5;
+  --header-text: #2f2a25;
+  --header-linkhover: #b8956a;
+  --header-menudroptext: #7a6e62;
+  --header-menudropbg: #fffaf5;
+  --header-topbarbg: #f5efe6;
+  --header-topborderbg: #e6ddd3;
 
-  --footer-bg: #222222;
-  --footer-text: #ffffff;
-  --footer-title: #e35353;
-  --footer-border: rgba(255, 255, 255, 0.1);
+  --footer-bg: #1a1610;
+  --footer-text: #f5efe6;
+  --footer-title: #c9a96e;
+  --footer-border: rgba(201, 169, 110, 0.15);
 
   --card-bg: #ffffff;
   --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   --overlay-bg: rgba(0, 0, 0, 0.5);
 
-  --g-label-sale-bg: #84c8bb;
+  --g-label-sale-bg: #b8956a;
   --g-label-sale-text: #ffffff;
 
   --sold-out-bg: #ffffff;
-  --sold-out-text: #d1512d;
+  --sold-out-text: #a0714a;
 }
 
 .dark {
-  --g-main: #f2f2f2;
-  --g-main-2: #ff6f6f;
-  --g-color-heading: #f2f2f2;
-  --color-body-text: 220, 220, 222;
-  --g-body: #121212;
-  --g-body-alt: #1a1a1a;
-  --g-border: #2e2e2e;
-  --g-input-border: #3a3a3a;
-  --g-input-bg: #1c1c1c;
+  --g-main: #f2f0ec;
+  --g-main-2: #c9a96e;
+  --g-color-heading: #f2f0ec;
+  --color-body-text: 230, 225, 218;
+  --g-body: #121010;
+  --g-body-alt: #1a1816;
+  --g-border: #2e2a26;
+  --g-input-border: #3a3530;
+  --g-input-bg: #1c1a18;
 
-  --header-background: #161616;
-  --header-text: #f2f2f2;
-  --header-linkhover: #ff6f6f;
-  --header-menudroptext: #b9b9b9;
-  --header-menudropbg: #1c1c1c;
-  --header-topbarbg: #1c1c1c;
-  --header-topborderbg: #2e2e2e;
+  --header-background: #141210;
+  --header-text: #f2f0ec;
+  --header-linkhover: #c9a96e;
+  --header-menudroptext: #b5aa9c;
+  --header-menudropbg: #1c1a18;
+  --header-topbarbg: #1c1a18;
+  --header-topborderbg: #2e2a26;
 
-  --footer-bg: #0c0c0c;
-  --footer-text: #f2f2f2;
-  --footer-title: #ff6f6f;
-  --footer-border: rgba(255, 255, 255, 0.08);
+  --footer-bg: #0a0908;
+  --footer-text: #f2f0ec;
+  --footer-title: #c9a96e;
+  --footer-border: rgba(201, 169, 110, 0.1);
 
-  --card-bg: #1a1a1a;
+  --card-bg: #1a1816;
   --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   --overlay-bg: rgba(0, 0, 0, 0.65);
 
-  --sold-out-bg: #1a1a1a;
-  --sold-out-text: #ff8a65;
+  --sold-out-bg: #1a1816;
+  --sold-out-text: #c9a96e;
 }
 
 @theme inline {

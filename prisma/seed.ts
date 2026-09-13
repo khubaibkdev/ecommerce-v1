@@ -4,14 +4,17 @@ import { hashPassword } from '../lib/auth'
 const prisma = new PrismaClient()
 
 const IMG = (name: string) => `/images/rosyz/${name}`
+const G = (name: string) => `/glora-asset/${name}`
 
 const categories = [
-    { slug: 'men', name: 'Men', image: IMG('men.jpg'), heroImage: IMG('product-8_58055203-fbbb-468a-a10b-41c28c632965.jpg') },
-    { slug: 'women', name: 'Women', image: IMG('women.jpg'), heroImage: IMG('product-6_d24b89b7-e72a-469f-a7e6-a07ca8400f75.jpg') },
-    { slug: 'accessories', name: 'Accessories', image: IMG('accessories.jpg'), heroImage: IMG('product-16_5fef85d4-4017-42d2-9a01-b8aa390dde62.jpg') },
-    { slug: 'outerwear', name: 'Outerwear', image: IMG('outerwear.jpg'), heroImage: IMG('product-4_b32fd154-87e2-438a-968f-5a4b5fc9d9a0.jpg') },
-    { slug: 'shoes', name: 'Shoes', image: IMG('shoes.jpg'), heroImage: IMG('product-21_ba641002-5032-4416-94af-cc3abc215944.jpg') },
-    { slug: 'glasses', name: 'Glasses', image: IMG('glasses.jpg'), heroImage: IMG('spring-5.jpg') },
+    { slug: 'men', name: 'Men', image: G('mens.png'), heroImage: G('mens.png') },
+    { slug: 'women', name: 'Clothes', image: G('clothes.png'), heroImage: G('clothes.png') },
+    { slug: 'accessories', name: 'Essentials', image: G('essentials.png'), heroImage: G('essentials.png') },
+    { slug: 'outerwear', name: 'Lingerie', image: G('lingerie-section.png'), heroImage: G('lingerie-section.png') },
+    { slug: 'shoes', name: 'Footwear', image: G('footwear.png'), heroImage: G('footwear.png') },
+    { slug: 'glasses', name: 'Skincare', image: G('skincare.png'), heroImage: G('skincare.png') },
+    { slug: 'swimwear', name: 'Swimwear', image: G('swimsuit-icon.png'), heroImage: G('swimsuit-icon.png') },
+    { slug: 'nightsuits', name: 'Nightsuits', image: G('nightsuits.png'), heroImage: G('nightsuits.png') },
 ]
 
 const products = [
@@ -200,72 +203,73 @@ const products = [
 
 const heroSlides = [
     {
-        image: IMG('banner-new2_e9cb5899-3448-4bc1-b523-f27298825ac1.png'),
-        eyebrow: 'Discover the Latest Trends',
-        headingL1: 'Elevate Your Style with', headingL2: 'Our New Collection',
-        subheading: "Get ready to turn heads with our exclusive fashion line. Explore the season's hottest trends.",
-        align: 'center',
+        image: G('banner.png'),
+        eyebrow: 'New Season Collection',
+        headingL1: 'Elevate Your Style', headingL2: 'with Glora Styles',
+        subheading: 'Discover timeless elegance and luxury fashion curated for the modern woman.',
+        align: 'left',
     },
     {
-        image: IMG('banner-new1_e2b0ee06-c245-4193-bda9-05713dc12bc5.png'),
-        eyebrow: 'Discover Your Style',
-        headingL1: 'Unleash the Latest Trends', headingL2: 'with Rosyz.',
-        subheading: 'Step into the world of fashion and redefine your wardrobe with our exclusive collection.',
+        image: G('banner-2.png'),
+        eyebrow: 'Premium Beauty & Care',
+        headingL1: 'Luxury Skincare', headingL2: 'by Glora Styles',
+        subheading: 'Indulge in our curated collection of premium beauty essentials.',
         align: 'right',
     },
 ]
 
 const gridBanners = [
     {
-        image: IMG('offer-banner1_cd5ff0a4-83f8-4855-b0ca-254ffafee564.jpg'),
-        eyebrow: 'Seasonal Style Sensations',
-        headingL1: 'Unwrap the Hottest', headingL2: 'Trends of the Year',
-        text: 'Get ready for a wardrobe makeover like no other.',
-        buttonHref: '/shop/men',
+        image: G('poster-3.png'),
+        eyebrow: 'Curated Elegance',
+        headingL1: 'The Art of', headingL2: 'Timeless Fashion',
+        text: 'Discover pieces that define luxury and sophistication.',
+        buttonHref: '/shop/women',
     },
     {
-        image: IMG('offer-banner2_1e89c27a-54d6-49ae-ac26-6415cb2b5f64.jpg'),
-        eyebrow: 'Elevate Your Style Game',
-        headingL1: 'Discover the Latest', headingL2: 'in Fashion',
-        text: 'Unleash your inner fashionista with Rosyz.',
-        buttonHref: '/shop/women',
+        image: G('lingerie-section.png'),
+        eyebrow: 'Intimate Collection',
+        headingL1: 'Delicate Details', headingL2: 'for Every Moment',
+        text: 'Explore our luxurious lingerie and intimate wear collection.',
+        buttonHref: '/shop/outerwear',
     },
 ]
 
 const springSlides = [
-    { image: IMG('spring-3.jpg'), productHandle: 'denim-skinny-jeans', topPos: '40%', leftPos: '10%' },
-    { image: IMG('spring-4.jpg'), productHandle: 'athletic-performance-shorts', topPos: '40%', leftPos: '20%' },
-    { image: IMG('spring-5.jpg'), productHandle: 'luxury-silk-scarf', topPos: '40%', leftPos: '30%' },
-    { image: IMG('spring-4.jpg'), productHandle: 'elegant-evening-gown', topPos: '70%', leftPos: '10%' },
-    { image: IMG('spring-2.jpg'), productHandle: 'cozy-knit-sweater', topPos: '55%', leftPos: '10%' },
+    { image: G('clothes.png'), productHandle: 'denim-skinny-jeans', topPos: '40%', leftPos: '10%' },
+    { image: G('swimsuit-icon.png'), productHandle: 'athletic-performance-shorts', topPos: '40%', leftPos: '20%' },
+    { image: G('skincare.png'), productHandle: 'luxury-silk-scarf', topPos: '40%', leftPos: '30%' },
+    { image: G('nightsuits.png'), productHandle: 'elegant-evening-gown', topPos: '70%', leftPos: '10%' },
+    { image: G('footwear.png'), productHandle: 'cozy-knit-sweater', topPos: '55%', leftPos: '10%' },
 ]
 
 const testimonials = [
     {
         name: 'Emily Johnson', role: 'Fashion Enthusiast', image: IMG('insta1.jpg'),
-        quote: "I've shopped at many online fashion stores, but Rosyz is truly exceptional. Their quality and style are unmatched. I keep coming back for more!",
+        quote: "I've shopped at many online fashion stores, but Glora Styles is truly exceptional. Their quality and style are unmatched. I keep coming back for more!",
         subText: 'I keep coming back for more!',
     },
     {
         name: 'David Smith', role: 'Trendsetter', image: IMG('insta6.jpg'),
-        quote: 'Rosyz is my go-to for the latest fashion trends. Their collection is always up-to-date, and the shopping experience is a breeze. I recommend them to all my friends.',
+        quote: 'Glora Styles is my go-to for the latest fashion trends. Their collection is always up-to-date, and the shopping experience is a breeze. I recommend them to all my friends.',
         subText: 'I recommend them to all my friends.',
     },
     {
         name: 'Sarah Anderson', role: 'Fashion Blogger', image: IMG('insta8.jpg'),
-        quote: "I've had the pleasure of collaborating with Rosyz multiple times. Their commitment to style and quality is evident in every piece they offer.",
+        quote: "I've had the pleasure of collaborating with Glora Styles multiple times. Their commitment to style and quality is evident in every piece they offer.",
         subText: "It's the perfect fashion store",
     },
     {
         name: 'Michael Roberts', role: 'Style Icon', image: IMG('glasses.jpg'),
-        quote: 'Shopping at Rosyz has been a game-changer for me. Their selection is always on point, and I appreciate the attention to detail in each piece.',
+        quote: 'Shopping at Glora Styles has been a game-changer for me. Their selection is always on point, and I appreciate the attention to detail in each piece.',
         subText: "I've found some of my signature looks here!",
     },
 ]
 
-const instagramImages = ['insta1.jpg', 'insta2.jpg', 'insta3.jpg', 'insta4.jpg', 'insta5.jpg', 'insta6.jpg', 'insta7.jpg', 'insta8.jpg'].map(
-    (name) => IMG(name),
-)
+const instagramImages = [
+    G('clothes.png'), G('lingerie-section.png'), G('swimsuit-icon.png'), G('skincare.png'),
+    G('essentials.png'), G('footwear.png'), G('nightsuits.png'), G('mens.png'),
+]
 
 const recentPurchases = [
     { title: 'Elegant Evening Gown', image: IMG('product-1.jpg'), handle: 'elegant-evening-gown', location: 'in Bridgetown, Barbados', timeLabel: 'about 46 minutes ago' },
@@ -310,9 +314,9 @@ const blogPosts = [
 const pages = [
     {
         slug: 'about-us', title: 'About Us',
-        intro: 'Rosyz is a dynamic and innovative online fashion retailer bringing curated style to customers worldwide.',
+        intro: 'Glora Styles is a dynamic and innovative online fashion retailer bringing curated style to customers worldwide.',
         body: [
-            { heading: 'Our Story', text: 'Founded with a simple idea — that great style shouldn\'t be complicated — Rosyz curates fashion-forward pieces across menswear, womenswear, accessories and outerwear, sourced from independent labels and design houses we believe in.' },
+            { heading: 'Our Story', text: 'Founded with a simple idea — that great style shouldn\'t be complicated — Glora Styles curates fashion-forward pieces across menswear, womenswear, accessories and outerwear, sourced from independent labels and design houses we believe in.' },
             { heading: 'Our Promise', text: 'Every piece in our collection is chosen for quality, craftsmanship, and timeless appeal. We work directly with our vendors to bring you honest pricing and fast, reliable shipping wherever you are.' },
             { heading: 'Sustainability', text: 'We\'re continually reviewing our supply chain to favor partners who share our commitment to responsible materials and fair labor practices.' },
         ],
@@ -363,11 +367,11 @@ const pages = [
     },
     {
         slug: 'terms-conditions', title: 'Terms & Conditions',
-        intro: 'The terms below govern your use of the Rosyz website and any purchases made through it.',
+        intro: 'The terms below govern your use of the Glora Styles website and any purchases made through it.',
         body: [
             { heading: 'Use of Site', text: 'By using this site you agree to browse and shop in accordance with applicable laws and these terms.' },
             { heading: 'Pricing & Availability', text: 'Prices and product availability are subject to change without notice.' },
-            { heading: 'Limitation of Liability', text: 'Rosyz is not liable for indirect or consequential damages arising from the use of this site.' },
+            { heading: 'Limitation of Liability', text: 'Glora Styles is not liable for indirect or consequential damages arising from the use of this site.' },
         ],
     },
     {
@@ -379,7 +383,7 @@ const pages = [
         ],
     },
     {
-        slug: 'gift-card', title: 'Gift Card', intro: 'Give the gift of great style. Rosyz digital gift cards are delivered by email and never expire.',
+        slug: 'gift-card', title: 'Gift Card', intro: 'Give the gift of great style. Glora Styles digital gift cards are delivered by email and never expire.',
         body: [
             { heading: 'How It Works', text: 'Choose an amount, add a personal message, and we\'ll email the gift card straight to the recipient.' },
             { heading: 'Redemption', text: 'Gift cards can be applied at checkout and used across multiple orders until the balance is used up.' },

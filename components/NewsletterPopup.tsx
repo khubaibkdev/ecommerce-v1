@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { CloseIcon } from '@/components/icons'
 
-const STORAGE_KEY = 'rosyz_newsletter_seen'
+const STORAGE_KEY = 'glora_newsletter_seen'
 
 interface NewsletterPopupProps {
     enabled: boolean

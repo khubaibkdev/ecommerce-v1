@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 
-const STORAGE_KEY = 'rosyz_cookie_ok'
+const STORAGE_KEY = 'glora_cookie_ok'
 
 interface CookieBarProps {
     enabled: boolean
