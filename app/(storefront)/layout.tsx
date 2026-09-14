@@ -51,6 +51,9 @@ export async function generateMetadata(): Promise<Metadata> {
             follow: true,
             googleBot: { index: true, follow: true, 'max-video-preview': -1, 'max-image-preview': 'large', 'max-snippet': -1 },
         },
+        other: {
+            'p:domain_verify': 'd8be0bb5de8ee4ca69ee9a96efb503c5',
+        },
     }
 }
 
